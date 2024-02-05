@@ -1,0 +1,49 @@
+#include <iostream>
+#include <queue>
+
+int main()
+{
+	int N, S, X;
+	std::cin >> N >> S >> X;
+	std::queue<int> numbers;
+	int tempNumber;
+
+	for (size_t i = 0; i < N; i++)
+	{
+		std::cin >> tempNumber;
+		numbers.push(tempNumber);
+	}
+
+	for (size_t i = 0; i < S; i++)
+	{
+		numbers.pop();
+	}
+
+	if (!numbers.empty())
+	{
+		int minNumber = numbers.front();
+		while (!numbers.empty())
+		{
+			tempNumber = numbers.front();
+			if (tempNumber == X)
+			{
+				std::cout << "true" << std::endl;
+				return 0;
+			}
+			else
+			{
+				if (minNumber > tempNumber)
+				{
+					minNumber = tempNumber;
+				}
+			}
+			numbers.pop();
+		}
+		std::cout << minNumber << std::endl;
+	}
+	else
+		std::cout << "false" << std::endl;
+
+	return 0;
+}
+
