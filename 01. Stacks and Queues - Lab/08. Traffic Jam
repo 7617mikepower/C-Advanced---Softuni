@@ -1,0 +1,39 @@
+#include <iostream>
+#include<string>
+#include<queue>
+
+int main()
+{
+	int cars;
+	int count = 0;
+	std::cout << "Enter numbers of cars that can pass the crossroads: " << std::endl;
+	std::cin >> cars;
+	std::string input;
+	std::cout << "Enter vehicles that arrived on the queue. Enter <end> to stop!" << std::endl;
+	getline(std::cin >> std::ws, input);
+	std::queue<std::string> carsQueue;
+
+	while (input != "end")
+	{
+		if (input == "green")
+		{
+			if (cars > carsQueue.size())
+			{
+				cars = carsQueue.size();
+			}
+			for (size_t i = 0; i < cars; i++)
+			{
+					std::cout << carsQueue.front() << " passed!" << std::endl;
+					carsQueue.pop();
+					count++;
+			}
+		}
+		else
+		{
+			carsQueue.push(input);
+		}
+		getline(std::cin, input);
+	}
+	std::cout << count << " cars passed the crossroads." << std::endl;
+	return 0;
+}
