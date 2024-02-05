@@ -1,0 +1,70 @@
+#include <iostream>
+#include <stack>
+#include <sstream>
+#include <string>
+
+template<typename T> T print(std::stack<T> st)
+{
+	while(!st.empty())
+	{
+		std::cout << st.top() << " ";
+		st.pop();
+	}
+	std::cout << std::endl;
+	return 0;
+}
+
+int main()
+{
+	std::string input;
+	getline(std::cin >> std::ws, input);
+	std::istringstream ss(input);
+	std::stack<int> digits;
+	std::stack<char> symbols;
+
+	int number;
+	char cmd;
+	std::string buffer;
+	while (ss >> buffer)
+	{
+		if (std::stringstream(buffer) >> number)
+		{
+			digits.push(number);
+		}
+		else
+		{
+			std::stringstream(buffer) >> cmd;
+			symbols.push(cmd);
+		}
+	}
+	//print(digits);
+	//print(symbols);
+
+	int total = 0;
+	char buf;
+	while (!symbols.empty())
+	{
+		buf = symbols.top();
+		if (buf == '+')
+		{
+			if (!digits.empty())
+			{
+				total += digits.top();
+				digits.pop();
+			}
+		}
+		if (buf == '-')
+		{
+			int a = 0, b = 0;
+			if (!digits.empty())
+			{
+				total -= digits.top();
+				digits.pop();
+			}
+		}
+		symbols.pop();
+	}
+	std::cout << total + digits.top() << std::endl;
+	
+	return 0;
+}
