@@ -1,0 +1,74 @@
+#include <iostream>
+#include <queue>
+#include <string>
+
+size_t duration;
+size_t freeWindow;
+
+int main()
+{
+    std::cout << "Enter the duration of the green light: " << std::endl;
+    std::cin >> duration;
+    std::cout << "Enter the duration of the free windows: " << std::endl;
+    std::cin >> freeWindow;
+
+    std::string input;
+    std::cout << "Enter the model of the car arriving int the queue or green: " << std::endl;
+    getline(std::cin >> std::ws, input);
+
+    std::queue<std::string> carQueue;
+    int carPassed = 0;
+    int timeBuffer = duration;
+
+    while(!(input == "END"))
+    {
+        if (input != "green")
+        {
+            carQueue.push(input);
+        }
+        else
+        {
+            while(!carQueue.empty())
+            {
+                int carTime = (carQueue.front()).size();
+                std::string curCar = carQueue.front();
+
+                if (timeBuffer > carTime)
+                {
+                    carPassed++;
+                    carQueue.pop();
+                    timeBuffer -= carTime;
+                }
+                else if (timeBuffer == carTime)
+                {
+                    carPassed++;
+                    carQueue.pop();
+                    timeBuffer = duration;
+                    break;
+                }
+                else if ((timeBuffer + freeWindow) >= carTime)
+                    {
+                        carPassed++;
+                        carQueue.pop();
+                        timeBuffer = duration;
+                        break;
+                    }
+                else
+                    {
+                        std::cout << "A crash happened!" << std::endl;
+                        std::cout << curCar << " was hit at " << curCar[(timeBuffer+freeWindow)] << "." << std::endl;
+                        return 0;
+                    }
+                
+            }
+        }
+        timeBuffer = duration; 
+        std::cout << "Enter the model of the car arriving int the queue or green: " << std::endl;
+        getline(std::cin >> std::ws, input);
+    }
+
+    std::cout << "Everyone is safe." << std::endl;
+    std::cout << carPassed << " total cars passed the crossroads." << std::endl;
+
+    return 0;
+}
