@@ -1,0 +1,82 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <sstream>
+
+int main()
+{
+	char buffer;
+	std::string input;
+	bool flag = true;
+	getline(std::cin >> std::ws, input);
+
+	int counter = 0;
+
+	std::stack<char>expressions;
+
+	for (size_t i = 0; i < input.size(); i++)
+	{
+		expressions.push(input[i]);
+	}
+
+	std::stack<char>reverse;
+	while (!expressions.empty())
+	{
+		reverse.push(expressions.top());
+		expressions.pop();
+	}
+	std::stack<char>print;
+	std::ostringstream os;
+	std::ostringstream os2;
+
+	while (!reverse.empty())
+	{
+		buffer = reverse.top();
+		reverse.pop();
+		if (buffer == '(')
+		{
+			flag = false;
+			counter++;
+			os << buffer;
+			if (counter >1)
+			{
+				os2 << buffer;
+			}
+		}
+		else if (buffer == ')')
+		{
+			flag = true;
+			counter--;
+			if (counter == 0)
+			{
+				os << buffer;
+				std::cout << os.str() << std::endl;
+				os.str("");
+			}
+			else
+			{
+				os << buffer;
+				if (flag)
+				{
+					os2 << buffer;
+					std::cout << os2.str() << std::endl;
+					os2.str("");
+				};
+			}
+	
+		}
+		else
+		{
+			if (counter != 0)
+			{
+				os << buffer;
+				if (counter > 1)
+				{
+					os2 << buffer;
+				}
+				
+			}
+		}
+	}
+	std::cout << os.str();
+}
