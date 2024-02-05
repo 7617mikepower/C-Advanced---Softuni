@@ -1,0 +1,90 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <stack>
+#include <queue>
+
+void getData(std::stack<int>& qr, std::string& input)
+{
+	int tempNumber;
+	std::istringstream ss(input);
+	while (ss >> tempNumber)
+	{
+		qr.push(tempNumber);
+	}
+}
+
+void getData(std::queue<int>& qr, std::string& input)
+{
+	int tempNumber;
+	std::istringstream ss(input);
+	while (ss >> tempNumber)
+	{
+		qr.push(tempNumber);
+	}
+}
+
+int main()
+{
+	std::string input;
+
+	getline(std::cin >> std::ws, input);
+	std::queue<int> cups;
+	getData(cups, input);
+
+	getline(std::cin >> std::ws, input);
+	std::stack<int> bottles;
+	getData(bottles, input);
+
+	int wastedLittersOfWater = 0;
+
+	while (!bottles.empty() && !cups.empty())
+	{
+		if (bottles.empty() || cups.empty())
+		{
+			break;
+		}
+		else
+		{
+			if (bottles.top() >= cups.front())
+			{
+				wastedLittersOfWater += bottles.top() - cups.front();
+				cups.pop();
+
+			}
+			else
+			{
+				int tempCup = cups.front() - bottles.top();
+				cups.pop();
+				cups.push(tempCup);
+				for (size_t i = 0; i < cups.size()-1; i++)
+				{
+					tempCup = cups.front();
+					cups.pop();
+					cups.push(tempCup);
+				}
+			}
+			bottles.pop();
+		}
+	}
+	int remainingBottles = bottles.size();
+	int remainingCups = cups.size();
+
+	if (remainingBottles > 0 && remainingCups == 0)
+	{
+		std::cout << "Bottles: " << remainingBottles << std::endl;
+		std::cout << "Wasted litters of water : " << wastedLittersOfWater << std::endl;
+	}
+	if (remainingCups > 0)
+	{
+		std::cout << "Cups: ";
+		while(!cups.empty())
+		{
+			std::cout << cups.front() << ' ';
+			cups.pop();
+		}
+		std::cout << std::endl;
+		std::cout << "Wasted litters of water : " << wastedLittersOfWater << std::endl;
+	}
+	return 0;
+}
