@@ -1,0 +1,34 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <sstream>
+
+int main()
+{
+	std::string str;
+	getline(std::cin >> std::ws, str);
+
+	std::istringstream ss(str);
+
+	std::string buffer;
+	std::stack<char> reverseWords;
+	while (ss >> buffer)
+	{
+		std::istringstream s1(buffer);
+		char temp;
+		while (s1 >> temp)
+		{
+		reverseWords.push(temp);
+		}
+	reverseWords.push(' ');
+	}
+	reverseWords.pop();
+	while (reverseWords.empty() == false)
+	{
+		
+		std::cout << reverseWords.top();
+		reverseWords.pop();
+	}
+
+	return 0;
+}
