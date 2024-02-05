@@ -1,0 +1,28 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+
+int main()
+{
+	std::string input;
+	std::queue<std::string> names;
+	cin >> input;
+
+	while (input != "End")
+	{
+		if (input != "Paid")
+		{
+			names.push(input);
+		}
+		else {
+			while (!names.empty())
+			{
+				cout << names.front() << std::endl;
+				names.pop();
+			}
+		}
+		std::cin >> input;
+	}
+	cout << names.size() << " people remaining." << std::endl;
+	return 0;
+}
