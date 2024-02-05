@@ -1,0 +1,59 @@
+#include <iostream>
+#include <stack>
+#include<string>
+#include <sstream>
+
+int main()
+{
+    std::string input;
+    getline(std::cin >> std::ws, input);
+    std::istringstream num(input);
+    int number;
+    std::stack<int> numbers;
+    while(num >> number)
+    {
+        numbers.push(number);
+    }
+    std::string command;
+    getline(std::cin >> std::ws, command);
+
+   while (command != "end")
+   {
+       std::istringstream s2(command);
+       std::string buf;
+       s2 >> buf;
+
+       if (buf == "add")
+       {
+           int a, b;
+           s2 >> a;
+           s2 >> b;
+           numbers.push(a);
+           numbers.push(b);
+       }
+       if (buf == "remove")
+       {
+           int a;
+           s2 >> a;
+           if (a <= numbers.size())
+           {
+               for (int i = 0; i < a; i++)
+               {
+                   numbers.pop();
+               }
+           }
+           else std::cout << "Ignore" << std::endl;
+       }
+       getline(std::cin >> std::ws, command);
+   }
+   int sum = 0;
+   while(!numbers.empty())
+   {
+       sum += numbers.top();
+       numbers.pop();
+   }
+   
+   std::cout << "Sum: " << sum << std::endl;
+    return 0;
+}
+
