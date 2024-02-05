@@ -1,0 +1,81 @@
+#include <iostream>
+#include <stack>
+
+int maximum(std::stack<int> qr)
+{
+	int max = qr.top();
+	while (!qr.empty())
+	{
+		if (qr.top() > max)
+		{
+			max = qr.top();
+			qr.pop();
+		}
+		else
+			qr.pop();
+	}
+	return max;
+}
+
+int minimum(std::stack<int> qr)
+{
+	int min = qr.top();
+	while (!qr.empty())
+	{
+		if (qr.top() < min)
+		{
+			min = qr.top();
+			qr.pop();
+		}
+		else
+			qr.pop();
+	}
+	return min;
+}
+
+void print(std::stack<int> qr)
+{
+	while (qr.size() > 1)
+	{
+		std::cout << qr.top() << ", ";
+		qr.pop();
+	}
+	std::cout << qr.top();
+}
+
+int main()
+{
+	int N;
+	std::cin >> N;
+	std::stack<int> numbers;
+	int cmd;
+
+	for (size_t i = 0; i < N; i++)
+	{
+		int temp;
+		std::cin >> cmd;
+		switch (cmd)
+		{
+		case 1:
+			std::cin >> temp;
+			numbers.push(temp);
+			break;
+		case 2:
+			if (!numbers.empty())
+				numbers.pop();
+			break;
+		case 3:
+			if(!numbers.empty())
+			std::cout << maximum(numbers) << std::endl;
+			break;
+		case 4:
+			if (!numbers.empty())
+			std::cout << minimum(numbers) << std::endl;
+			break;
+		default:
+			break;
+		}
+	}
+	print(numbers);
+	return 0;
+}
