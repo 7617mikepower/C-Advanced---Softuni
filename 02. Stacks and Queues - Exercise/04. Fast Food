@@ -1,0 +1,66 @@
+#include <iostream>
+#include <queue>
+#include <sstream>
+#include <string>
+#include <climits> 
+
+int biggestNumber(std::queue<int> qr)
+{
+	int biggestNumber = INT_MIN;
+	while (!qr.empty())
+	{
+		int cur = qr.front();
+		if (cur > biggestNumber)
+		{
+			biggestNumber = cur;
+		}
+		qr.pop();
+	}
+	return biggestNumber;
+}
+
+int main()
+{
+	int foodAmount;
+	std::cin >> foodAmount;
+	if (foodAmount > 1000 || foodAmount < 0)
+	{
+		return -1;
+	}
+	std::string input;
+	getline(std::cin >> std::ws, input);
+	std::istringstream ss(input);
+	int maxOrder = 0;
+	int buffer;
+	std::queue<int> orders;
+
+	while (ss >> buffer)
+	{
+		orders.push(buffer);
+	}
+
+	std::cout << biggestNumber(orders) << std::endl;
+
+	while (!orders.empty())
+	{
+		int curOrder = orders.front();
+		if (foodAmount >= curOrder)
+		{
+			foodAmount -= curOrder;
+			orders.pop();
+		}
+		else
+		{
+			std::cout << "Orders left: ";
+			while (!orders.empty())
+			{
+				std::cout << orders.front() << " ";
+				orders.pop();
+			}
+			std::cout << std::endl;
+			return 0;
+		}
+	}
+	std::cout << "Orders complete" << std::endl;
+	return 0;
+}
