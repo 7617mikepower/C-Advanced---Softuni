@@ -1,0 +1,84 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <stack>
+#include <queue>
+
+void getData(std::stack<int>& qr, std::string& input)
+{
+	int tempNumber;
+	std::istringstream ss(input);
+	while (ss >> tempNumber)
+	{
+		qr.push(tempNumber);
+	}
+}
+
+void getData(std::queue<int>& qr, std::string& input)
+{
+	int tempNumber;
+	std::istringstream ss(input);
+	while (ss >> tempNumber)
+	{
+		qr.push(tempNumber);
+	}
+}
+
+int main()
+{
+	int bulletPrice;
+	int gunBarrel;
+	std::string input;
+	std::cin >> bulletPrice >> gunBarrel;
+
+	getline(std::cin >> std::ws, input);
+	std::stack<int> bullets;
+	getData(bullets, input);
+
+	getline(std::cin >> std::ws, input);
+	std::queue<int> lockers;
+	getData(lockers, input);
+
+	int intelligence;
+	int bulletsInitial = bullets.size();
+
+	std::cin >> intelligence;
+
+	while (!bullets.empty() && !lockers.empty())
+	{
+		for (size_t i = 0; i < gunBarrel; i++)
+		{
+			if (lockers.empty() || bullets.empty())
+			{
+				break;
+			}
+			else
+			{
+				if (bullets.top() <= lockers.front())
+				{
+					std::cout << "Bang!" << std::endl;
+					lockers.pop();
+				}
+				else
+				{
+					std::cout << "Ping!" << std::endl;
+				}
+				bullets.pop();
+			}
+		}
+		if (bullets.size() != 0)
+			std::cout << "Reloading!" << std::endl;
+	}
+	int bulletsLeft = bullets.size();
+	int lockersLeft = lockers.size();
+
+	if (bulletsLeft >= 0 && lockersLeft == 0)
+	{
+		std::cout << bulletsLeft << " bullets left. Earned $" << intelligence - ((bulletsInitial - bulletsLeft) * bulletPrice) << std::endl;
+	}
+	if (lockersLeft > 0)
+	{
+		std::cout << "Couldn't get through. Locks left: " << lockersLeft << std::endl;
+	}
+	return 0;
+}
