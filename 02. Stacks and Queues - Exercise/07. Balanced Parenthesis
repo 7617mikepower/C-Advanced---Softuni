@@ -1,0 +1,50 @@
+#include <iostream>
+#include <stack>
+#include <string>
+
+bool check(std::string input)
+{
+    std::stack<char> parentheses;
+
+    for(size_t i{0}; i< input.size(); i++)
+    {
+        char symbol = input[i];
+        switch(symbol)
+        {
+        case '(':
+        case '[':
+        case '{':
+            parentheses.push(symbol);
+            break;
+        default:
+            if (parentheses.empty())
+                return false;
+
+            if (parentheses.top() == '(' && symbol != ')' )
+            {
+                return false;
+            }
+            if (parentheses.top() == '[' && symbol != ']')
+            {
+                return false;
+            }
+            if (parentheses.top() == '{' && symbol != '}')
+            {
+                return false;
+            }
+            parentheses.pop();
+            break;
+        }
+    }
+    return true;
+}
+
+int main()
+{
+    std::string input;
+    std::cin >> input;
+
+    std::cout << (check(input) ? "YES"  : "NO") << std::endl;
+
+    return 0;
+}
