@@ -1,0 +1,63 @@
+#include <iostream>
+#include <queue>
+#include <string>
+#include <sstream>
+
+bool check(std::queue<int> liters, std::queue<int> distance )
+{
+    int fuelTank = 0;
+    while(!liters.empty())
+    {
+        fuelTank += liters.front();
+        liters.pop();
+
+        if(fuelTank < distance.front())
+        {
+            distance.pop();
+            return false;
+        }
+        else
+        {
+            fuelTank -= distance.front();
+            distance.pop();
+        }
+    }
+    return true;
+}
+
+int main()
+{
+    int petrolPumps;
+    std::cin >> petrolPumps;
+    int capacity, distance;
+
+    int startingPoint = 0;
+
+    std::queue<int>distanceQ;
+    std::queue<int>capacityQ;
+
+    for(size_t i{0}; i< petrolPumps; i++)
+    {
+        std::cin >> capacity >> distance;
+        capacityQ.push(capacity);
+        distanceQ.push(distance);
+    }
+
+    while(startingPoint < capacityQ.size())
+    {
+        if (check(capacityQ, distanceQ))
+        {
+            std::cout << startingPoint << std::endl;
+            return 0;
+        }
+        capacityQ.push(capacityQ.front());
+        capacityQ.pop();
+        distanceQ.push(distanceQ.front());
+        distanceQ.pop();
+        startingPoint++;
+    }
+
+    std::cout << "No solution" << std::endl;
+
+    return 0;
+}
