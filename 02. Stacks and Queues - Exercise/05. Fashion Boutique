@@ -1,0 +1,36 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <sstream>
+
+int main()
+{
+    std::stack<int> clothes;
+    std::string input;
+    getline(std::cin >> std::ws, input);
+    std::istringstream ss (input);
+    int tempNumber;
+    while(ss >> tempNumber)
+    {
+        clothes.push(tempNumber);
+    }
+    int rackCapacity;
+    int racks = 1;
+    std::cin >> rackCapacity;
+    int sum = 0;
+    while(!clothes.empty())
+    {
+        if(sum + clothes.top() > rackCapacity)
+        {
+            racks++;
+            sum = 0;
+        }
+        else
+        {
+            sum+= clothes.top();
+            clothes.pop();
+        }
+    }
+    std::cout << racks << std::endl;
+    return 0;
+}
