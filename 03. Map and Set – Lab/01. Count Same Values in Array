@@ -2,6 +2,7 @@
 #include <map>
 #include<string>
 #include <sstream>
+#include <vector>
 
 int main()
 {
@@ -14,22 +15,29 @@ int main()
     double number;
     
     map<double, int> numberNames;
+    vector <double> unorderedNumber;
    
     while(ss >> number)
     {
         if (numberNames.find(number) == numberNames.end())
         {
             numberNames[number] = 1;
+            unorderedNumber.push_back(number);
         }
         else
         {
             numberNames[number]++;
         }
     }
-    for (auto it = numberNames.begin(); it != numberNames.end(); it++)
+    
+    for(auto s : unorderedNumber)
     {
-        cout << it->first << " - " << it->second << " times" << endl;
+        map<double, int>::iterator it = numberNames.find(s);
+        {
+            cout << it->first << " - " << it->second << " times" << endl;
+        }
     }
 
     return 0;
 }
+
