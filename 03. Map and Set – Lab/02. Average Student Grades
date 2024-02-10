@@ -1,0 +1,58 @@
+#include <iostream>
+#include <map>
+#include <string>
+#include <utility>
+#include <sstream>
+#include <vector>
+
+int main()
+{
+	int number;
+	std::cin >> number;
+	std::map<std::string, std::vector<double>> studentGrades;
+	std::vector<double> grades;
+
+	for (size_t i = 0; i < number; i++)
+	{
+		std::string student;
+		getline(std::cin >> std::ws, student);
+		std::istringstream ss(student);
+
+		std::string name;
+		double grade;
+		ss >> name;
+		ss >> grade;
+
+		studentGrades[name].push_back(grade);
+	}
+
+	for (auto s : studentGrades)
+	{
+		std::string temp;
+		temp = s.first;
+		std::cout << temp << " -> ";
+		std::map<std::string, std::vector<double> >::iterator gradesIt = studentGrades.find(temp);
+
+		std::cout.setf(std::ios::fixed);
+		std::cout.precision(2);
+
+		if (gradesIt != studentGrades.end())
+		{
+			double average = 0;
+			for (double grade : gradesIt->second)
+			{
+				std::cout << grade << " ";
+				average += grade;
+			}
+			std::cout << "(avg: " << average / gradesIt->second.size() << ")";
+		}
+		else
+		{
+			std::cout << "no info";
+		}
+
+		std::cout << std::endl;
+	}
+	return 0;
+
+}
