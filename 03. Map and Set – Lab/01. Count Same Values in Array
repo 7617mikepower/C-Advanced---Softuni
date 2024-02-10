@@ -1,0 +1,35 @@
+#include <iostream>
+#include <map>
+#include<string>
+#include <sstream>
+
+int main()
+{
+    using namespace std;
+
+    string input;
+    getline(cin, input);
+    istringstream ss(input);
+  
+    double number;
+    
+    map<double, int> numberNames;
+   
+    while(ss >> number)
+    {
+        if (numberNames.find(number) == numberNames.end())
+        {
+            numberNames[number] = 1;
+        }
+        else
+        {
+            numberNames[number]++;
+        }
+    }
+    for (auto it = numberNames.begin(); it != numberNames.end(); it++)
+    {
+        cout << it->first << " - " << it->second << " times" << endl;
+    }
+
+    return 0;
+}
